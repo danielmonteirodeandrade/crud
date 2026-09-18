@@ -9,24 +9,51 @@
 <body>
     <container>
         <section class="container">
-            <label for="nomesolicitante">Nome do Solicitante:</label>
-            <input type="text" id="nomesolicitante" placeholder="Digite o nome">
-            <label for="descricao">Descrição:</label>
-            <input type="text" id="descricao" placeholder="Digite a descrição">
-            <label for="categoria">Categoria:</label>
-            <input type="text" id="categoria" placeholder="Digite a categoria">
-            <label for="prioridade">Prioridade:</label>
-            <select id="prioridade" name="prioridade">
-                <option value="baixa">Baixa</option>
-                <option value="media">Média</option>
-                <option value="alta">Alta</option>
-            </select>
-            <label for="status">Status:</label>
-            <input type="checkbox" id="status" placeholder="Digite o status">
-            <label for="data">Data:</label>
-            <input type="date" id="data" placeholder="Selecione a data">
+            <form class="form">
+                <label for="nomesolicitante">Nome do Solicitante:</label>
+                <input type="text" id="nomesolicitante" placeholder="Digite o nome">
+                <label for="descricao">Descrição:</label>
+                <input type="text" id="descricao" placeholder="Digite a descrição">
+                <label for="categoria">Categoria:</label>
+                <input type="text" id="categoria" placeholder="Digite a categoria">
+                <label for="prioridade">Prioridade:</label>
+                <select id="prioridade" name="prioridade">
+                    <option value="baixa">Baixa</option>
+                    <option value="media">Média</option>
+                    <option value="alta">Alta</option>
+                </select>
+                <label for="status">Status:</label>
+                <input type="checkbox" id="status" placeholder="Digite o status">
+                <label for="data">Data:</label>
+                <input type="date" id="data" placeholder="Selecione a data">
+                <button type="submit">Enviar</button>
+            </form>
         </section>
-        <sect
+        <section class="container">
+             <div class="linha-container">
+                <button id="load-chamados">
+                    carregar chamados
+                </button>
+                <div class="filter-box">
+                    <input type="text" id="fliterInput" placeholder="Buscar chamado">
+                </div>
+             </div>
+             <section id="chamados" class="linha-container">
+                <div class="chamado">
+                    <div class="regiao-chamado">
+                        <span>fasf</span>
+                    </div>
+                    <div class="btns-chamado">
+                        <button id="atualizar"class="btn-chamado">
+                            atualizar
+                        </button>
+                        <button id="excluir" class="btn-chamado">
+                            excluir
+                        </button>
+                    </div>
+                </div>   
+             </section>
+        </section>
     </container>
 </body>
 </html>

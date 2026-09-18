@@ -1,6 +1,32 @@
 .container {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     justify-content: left;
     max-width: 800px;
+    margin-bottom: 30px;
+    border: 1px solid #000;
+    padding: 20px;
+    gap: 20px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#chamados {
+    display: flex;
+}
+
+.chamado {
+    display: flex;
+    gap: 20px;
+}
+
+.linha-container {
+    display: flex;
+    justify-content: left;
+    gap: 20px;
 }
