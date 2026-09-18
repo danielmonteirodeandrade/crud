@@ -1,9 +1,12 @@
-const express = require("express");
+const express = require('express');
 
-const controller = require("../controllers/controller.js");
+const controller = require('../controllers/controller.js');
 
 const routes = express.Router();
 
-routes.get("/get", controller.ser);
+routes.get('/chamados', controller.listarchamado);
+routes.post('/chamados', controller.cadastrarchamado);
+routes.put('/chamados/:id', controller.atualizarchamado);
+routes.delete('/chamados/:id', controller.deletarchamado);
 
 module.exports = routes;

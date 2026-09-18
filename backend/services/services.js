@@ -1,4 +1,4 @@
-const supabase = require("../data/supabase.js");
+const supabase = require("./data/supabase.js");
 
 function listarchamado() {
     return supabase.from("chamados").select("*");
@@ -16,6 +16,7 @@ function atualizarchamado(id, chamado) {
 function deletarchamado(id) {
     return supabase.from("chamados").delete().eq("id", id);
 }
+
 
 module.exports = {
     listarchamado,
