@@ -5,6 +5,10 @@ function listarchamado() {
     let query = supabase.from("chamados").select("*");
 }
 
+function buscarChamado(id) {
+    return supabase.from('chamados').select('*').eq('id', id);
+}
+
 function cadastrarchamado(chamado) {
     return supabase.from("chamados").insert([chamado]);
 }
@@ -20,6 +24,7 @@ function deletarchamado(id) {
 
 module.exports = {
     listarchamado,
+    buscarChamado,
     cadastrarchamado,
     atualizarchamado,
     deletarchamado
