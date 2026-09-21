@@ -1,4 +1,4 @@
-const supabase = require("../backend/data/supabase.js");
+const supabase = require("../data/supabase.js");
 
 function listarchamado() {
     return supabase.from("chamados").select("*");

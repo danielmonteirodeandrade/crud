@@ -1,4 +1,4 @@
-const {listarchamado, cadastrarchamado, atualizarchamado, deletarchamado} = require("./services/services.js");
+const {listarchamado, cadastrarchamado, atualizarchamado, deletarchamado} = require('../services/services.js');
 
 async function listar(req, res) {
     try {
