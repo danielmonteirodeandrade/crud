@@ -1,4 +1,4 @@
-const {listarchamado, cadastrarchamado, atualizarchamado, deletarchamado} = require('../services/services.js');
+const {listarchamado, buscarChamado, cadastrarchamado, atualizarchamado, deletarchamado} = require('../services/services.js');
 
 async function listar(req, res) {
     try {
@@ -12,10 +12,26 @@ async function listar(req, res) {
     }
 }
 
+async function buscar (req, res) {
+    try {
+        const {id} = req.params;
+        const {data, error} = await buscarChamado(id);
+
+        if (error || !data) {
+      return res.status(404).json({ mensagem: 'Produto não encontrado.' });
+        }
+
+        
+        return res.status(200).json(data);
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
+}
+
 async function cadastrar(req, res) {
     try {
-        const chamado = req.body;
-        const {data, error} = await cadastrarchamado(chamado);
+        const {id, nomesolicitante, descricao, categoria, prioridade, status, data} = req.body;
+        const {data, error} = await cadastrarchamado(id, nomesolicitante, descricao, categoria, prioridade, status, data);
         if (error) {
             throw error;
         }
@@ -54,6 +70,7 @@ async function deletar(req, res) {
 
 module.exports = {
     listar,
+    buscar,
     cadastrar,
     atualizar,
     deletar
