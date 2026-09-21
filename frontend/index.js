@@ -1,15 +1,6 @@
 const URL = process.env.API_URL;
 
-const btnchamado = document.getElementById("load-chamados");
-btnchamado.addEventListener("click", () => {
-    carregarChamados();
-});
 
-const btncadastrar = document.getElementById("cadastrar-chamado");
-btncadastrar.addEventListener("click", (event) => {
-    event.preventDefault();
-    cadastrarChamado();
-});
 
 
 
@@ -55,7 +46,17 @@ async function carregarChamados() {
     }
 }
 
+const btnchamado = document.getElementById("load-chamados");
 
 btnchamado.addEventListener("click", () => {
     carregarChamados();
+});
+
+
+
+const btncadastrar = document.getElementById("cadastrar-chamado");
+
+btncadastrar.addEventListener("click", (event) => {
+    event.preventDefault();
+    cadastrarChamado();
 });
