@@ -53,8 +53,8 @@ async function deletar(req, res) {
 }
 
 module.exports = {
-    listarchamado,
-    cadastrarchamado,
-    atualizarchamado,
-    deletarchamado
+    listar,
+    cadastrar,
+    atualizar,
+    deletar
 };
