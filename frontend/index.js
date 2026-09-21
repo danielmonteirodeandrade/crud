@@ -1,4 +1,26 @@
-const API_URL = process.env.API_URL;
+const URL = process.env.API_URL;
+
+const btnchamado = document.getElementById("load-chamados");
+btnchamado.addEventListener("click", () => {
+    carregarChamados();
+});
+
+const btncadastrar = document.getElementById("cadastrar-chamado");
+btncadastrar.addEventListener("click", (event) => {
+    event.preventDefault();
+    cadastrarChamado();
+});
+
+
+
+const novochamado = {
+    nome_solicitante:document.getElementById("nome_solicitante").value,
+    descrição:document.getElementById("descrição").value,
+    categoria:document.getElementById("categoria").value,
+    prioridade:document.getElementById("prioridade").value,
+    status:document.getElementById("status").value,
+    data:document.getElementById("data").value
+};
 
 async function carregarChamados() {
     const barrafiltro = document.getElementById('filterInput').value.trim();
@@ -8,7 +30,7 @@ async function carregarChamados() {
         API_URL += '?filter=' + encodeURIComponent(barrafiltro);
     }
     try {
-        const response = await fetch(API_URL);
+        const response = await fetch(URL);
         const data = await response.json();
 
         listachamados.innerHTML = data.map(chamado => 
@@ -33,24 +55,7 @@ async function carregarChamados() {
     }
 }
 
-const btnchamado = document.getElementById("load-chamados");
+
 btnchamado.addEventListener("click", () => {
     carregarChamados();
 });
-
-const btncadastrar = document.getElementById("cadastrar-chamado");
-btncadastrar.addEventListener("click", (event) => {
-    event.preventDefault();
-    cadastrarChamado();
-});
-
-
-
-const novochamado = {
-    nome_solicitante:document.getElementById("nome_solicitante").value,
-    descrição:document.getElementById("descrição").value,
-    categoria:document.getElementById("categoria").value,
-    prioridade:document.getElementById("prioridade").value,
-    status:document.getElementById("status").value,
-    data:document.getElementById("data").value
-};
