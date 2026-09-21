@@ -5,7 +5,7 @@ async function carregarChamados() {
     const listachamados = document.getElementById("chamado");
 
     if (barrafiltro) {
-        API_URL += '?filter=' + encondeURIComponent(barrafiltro);
+        API_URL += '?filter=' + encodeURIComponent(barrafiltro);
     }
     try {
         const response = await fetch(API_URL);
