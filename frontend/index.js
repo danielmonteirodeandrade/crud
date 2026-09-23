@@ -15,6 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarChamados();
 });
 
+function obterDataHoje() {
+    const hoje = new Date();
+    const ano = hoje.getFullYear();
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoje.getDate()).padStart(2, '0');
+    return `${ano}-${mes}-${dia}`;
+}
+
 btnCarregar.addEventListener("click", carregarChamados);
 
 formChamado.addEventListener("submit", (event) => {
@@ -52,10 +60,10 @@ function renderizarChamados(chamados) {
     listaChamados.innerHTML = chamados.map(chamado => `
         <div class="card-chamado">
             <div class="info-chamado">
-                <strong>#${chamado.id || ''} - ${chamado.nomesolicitante || chamado.nome_solicitante || 'Sem nome'}</strong>
+                <strong>#${chamado.id || ''} - ${chamado.nome_solicitante || 'Sem nome'}</strong>
                 <p><strong>Descrição:</strong> ${chamado.descricao}</p>
                 <p><strong>Categoria:</strong> ${chamado.categoria} | <strong>Prioridade:</strong> ${chamado.prioridade}</p>
-                <p><strong>Status:</strong> ${chamado.status} | <strong>Data:</strong> ${chamado.data}</p>
+                <p><strong>Status:</strong> ${chamado.status} | <strong>Data:</strong> ${chamado.data_abertura}</p>
             </div>
             <div class="btns-chamado">
                 <button class="btn-editar" onclick="prepararEdicao('${chamado.id}')">Editar</button>
@@ -68,27 +76,30 @@ function renderizarChamados(chamados) {
 // CREATE / UPDATE: Salvar ou atualizar chamado
 async function salvarChamado() {
     const editId = document.getElementById("edit-id").value;
+    const dataDigitada = document.getElementById("data_abertura").value;
 
+    // Como você alterou a coluna no banco para 'text', enviamos o valor direto
     const chamadoData = {
-        nomesolicitante: document.getElementById("nomesolicitante").value,
+        nome_solicitante: document.getElementById("nome_solicitante").value,
         descricao: document.getElementById("descricao").value,
         categoria: document.getElementById("categoria").value,
         prioridade: document.getElementById("prioridade").value,
         status: document.getElementById("status").value,
-        data: document.getElementById("data").value
+        data_abertura: dataDigitada !== "" ? dataDigitada : obterDataHoje()
     };
 
     try {
         let response;
+
         if (editId) {
-            // PUT - Atualização
+            // Edição (PUT)
             response = await fetch(`${API_URL}/${editId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(chamadoData)
             });
         } else {
-            // POST - Cadastro
+            // Cadastro (POST)
             response = await fetch(API_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -96,13 +107,16 @@ async function salvarChamado() {
             });
         }
 
-        if (!response.ok) throw new Error("Erro ao salvar chamado.");
+        if (!response.ok) {
+            const errData = await response.json();
+            throw new Error(errData.error || "Erro na requisição");
+        }
 
         limparFormulario();
         carregarChamados();
     } catch (error) {
         console.error("Erro ao salvar:", error);
-        alert("Falha ao salvar chamado.");
+        alert("Falha ao salvar chamado: " + error.message);
     }
 }
 
@@ -130,12 +144,17 @@ function prepararEdicao(id) {
     if (!chamado) return;
 
     document.getElementById("edit-id").value = chamado.id;
-    document.getElementById("nomesolicitante").value = chamado.nomesolicitante || chamado.nome_solicitante || '';
+    document.getElementById("nome_solicitante").value = chamado.nome_solicitante || '';
     document.getElementById("descricao").value = chamado.descricao || '';
     document.getElementById("categoria").value = chamado.categoria || '';
     document.getElementById("prioridade").value = chamado.prioridade || 'Baixa';
-    document.getElementById("status").value = chamado.status || 'Aberto';
-    document.getElementById("data").value = chamado.data || '';
+    document.getElementById("status").value = chamado.status || 'Ativo';
+    
+    if (chamado.data_abertura) {
+        document.getElementById("data_abertura").value = chamado.data_abertura.split('T')[0];
+    } else {
+        document.getElementById("data_abertura").value = obterDataHoje();
+    }
 
     formTitle.textContent = "Editar Chamado #" + chamado.id;
     btnCancelar.style.display = "inline-block";
@@ -145,6 +164,7 @@ function prepararEdicao(id) {
 function limparFormulario() {
     document.getElementById("edit-id").value = "";
     formChamado.reset();
+    document.getElementById("data_abertura").value = new Date().toISOString().split('T')[0];
     formTitle.textContent = "Cadastrar Chamado";
     btnCancelar.style.display = "none";
 }
@@ -153,7 +173,7 @@ function limparFormulario() {
 function filtrarChamados() {
     const termo = inputFiltro.value.toLowerCase();
     const filtrados = todosChamados.filter(c => {
-        const nome = (c.nomesolicitante || c.nome_solicitante || '').toLowerCase();
+        const nome = (c.nome_solicitante || '').toLowerCase();
         const cat = (c.categoria || '').toLowerCase();
         const desc = (c.descricao || '').toLowerCase();
         return nome.includes(termo) || cat.includes(termo) || desc.includes(termo);

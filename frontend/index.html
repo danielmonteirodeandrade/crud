@@ -8,14 +8,13 @@
 </head>
 <body>
     <main>
-        <!-- Form de Cadastro / Edição -->
         <section class="container">
             <h2 id="form-title">Cadastrar Chamado</h2>
             <form class="form" id="form-chamado">
                 <input type="hidden" id="edit-id" value="">
 
-                <label for="nomesolicitante">Nome do Solicitante:</label>
-                <input type="text" id="nomesolicitante" placeholder="Digite o nome" required>
+                <label for="nome_solicitante">Nome do Solicitante:</label>
+                <input type="text" id="nome_solicitante" placeholder="Digite o nome" required>
 
                 <label for="descricao">Descrição:</label>
                 <input type="text" id="descricao" placeholder="Digite a descrição" required>
@@ -32,13 +31,12 @@
 
                 <label for="status">Status:</label>
                 <select id="status" name="status">
-                    <option value="Aberto">Aberto</option>
-                    <option value="Em atendimento">Em atendimento</option>
-                    <option value="Concluído">Concluído</option>
+                    <option value="Ativo">Ativo</option>
+                    <option value="Inativo">Inativo</option>
                 </select>
 
-                <label for="data">Data de Abertura:</label>
-                <input type="date" id="data" required>
+                <label for="data_abertura">Data de Abertura:</label>
+                <input type="date" id="data_abertura" name="data_abertura" readonly required>
 
                 <div class="form-actions">
                     <button type="submit" id="cadastrar-chamado">Salvar Chamado</button>

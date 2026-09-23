@@ -27,23 +27,37 @@ async function buscar(req, res) {
 
 async function cadastrar(req, res) {
     try {
-        const chamado = req.body;
-        const { data, error } = await cadastrarchamado(chamado);
-        if (error) throw error;
-        res.status(201).json(data);
+        const { data, error } = await cadastrarchamado(req.body);
+        
+        if (error) {
+            console.error("Erro do Supabase:", error);
+            return res.status(400).json({ error: error.message });
+        }
+        
+        return res.status(201).json(data);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error("Erro no Servidor:", error);
+        return res.status(500).json({ error: error.message });
     }
 }
+
+// controllerchamado.js
 
 async function atualizar(req, res) {
     try {
         const { id } = req.params;
         const chamado = req.body;
+        
         const { data, error } = await atualizarchamado(id, chamado);
-        if (error) throw error;
+        
+        if (error) {
+            console.error("Erro do Supabase ao atualizar:", error);
+            return res.status(400).json({ error: error.message });
+        }
+        
         res.status(200).json(data);
     } catch (error) {
+        console.error("Erro interno no servidor:", error);
         res.status(500).json({ error: error.message });
     }
 }
@@ -52,9 +66,15 @@ async function deletar(req, res) {
     try {
         const { id } = req.params;
         const { data, error } = await deletarchamado(id);
-        if (error) throw error;
+        
+        if (error) {
+            console.error("Erro do Supabase ao deletar:", error);
+            return res.status(400).json({ error: error.message });
+        }
+        
         res.status(200).json(data);
     } catch (error) {
+        console.error("Erro interno no servidor:", error);
         res.status(500).json({ error: error.message });
     }
 }

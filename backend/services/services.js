@@ -9,11 +9,11 @@ function buscarChamado(id) {
 }
 
 function cadastrarchamado(chamado) {
-    return supabase.from("chamados").insert([chamado]);
+    return supabase.from("chamados").insert([chamado]).select();
 }
 
 function atualizarchamado(id, chamado) {
-    return supabase.from("chamados").update(chamado).eq("id", id);
+    return supabase.from("chamados").update(chamado).eq("id", id).select();
 }
 
 function deletarchamado(id) {
